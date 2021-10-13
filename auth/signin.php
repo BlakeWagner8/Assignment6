@@ -14,6 +14,7 @@ if(count($_POST)>1) header('location: members.php');
 	<input type="email" name="email" />
     <label>Password</label>
     <input type="password" name="password" />
-	
+
+    <input type="hidden" name="action" value="signin"/>
 	<input type="submit" value="submit" />
 </form>

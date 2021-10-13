@@ -1,6 +1,8 @@
 <?php
 session_start();
-if(count($_SESSION)==0) header('location: index.php');
+require_once('auth/auth.php');
+
+if(!is_logged()) header('location: index.php');
 ?>
 <!DOCTYPE html>
 <html>
