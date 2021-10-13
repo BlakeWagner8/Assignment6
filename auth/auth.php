@@ -1,13 +1,15 @@
 <?php
 
 // add parameters
+$registered = '../data/users.csv.php';
+$banned = '../data/banned.csv.php';
 if(count($_POST)>0 && isset($_POST['action']{0})) {
     if($_POST['action']=='signup')
-        signup();
-    else signin();
+        signup($registered, $banned);
+    else signin($registered, $banned);
 }
 
-function signup(){
+function signup($registered, $banned){
 
     // add the body of the function based on the guidelines of signup.php
     if(count($_POST)>0){
@@ -27,9 +29,9 @@ function signup(){
             if(!preg_match($pattern, $_POST['password'])) die(message('error', 'password should contain special character. <a href="signup.php">click here<a/>'));
 
         // check if the file containing banned users exists
-                if(file_exists('banned.csv')) {
+                if(file_exists($banned)) {
                     // check if the email has not been banned
-                    $h=fopen('banned.csv', 'r+');
+                    $h=fopen($banned, 'r+');
                     while(!feof($h)) {
                         $line=explode(';', trim(fgets($h)));
                         if(count($line)<2) continue;
@@ -41,8 +43,8 @@ function signup(){
 
         // check if the file containing users exists
         // check if the email is in the database already
-        if(file_exists('../data/users.csv')) {
-            $h=fopen('../data/users.csv', 'r+');
+        if(file_exists($registered)) {
+            $h=fopen($registered, 'r+');
             while(!feof($h)) {
                 $line=explode(';', trim(fgets($h)));
                 if(count($line)<2) continue;
@@ -52,7 +54,7 @@ function signup(){
 
             // encrypt password
             // save the user in the database
-            $h=fopen('user.csv', 'a+');
+            $h=fopen($registered, 'a+');
             fwrite($h,$_POST['email'].';'.password_hash($_POST['password'],PASSWORD_DEFAULT).PHP_EOL);
             fclose($h);
             // show them a success message and redirect them to the sign in page
@@ -65,7 +67,7 @@ function signup(){
 }
 
 // add parameters
-function signin()
+function signin($registered, $banned)
 {
     // add the body of the function based on the guidelines of signin.php
     if (count($_POST) > 0) {
@@ -80,10 +82,10 @@ function signin()
 
 
         // check if the file containing banned users exists
-        if (file_exists('banned.csv')) {
+        if (file_exists($banned)) {
 
             // check if the email has not been banned
-            $h = fopen('banned.csv', 'r+');
+            $h = fopen($banned, 'r+');
             while (!feof($h)) {
                 $line = explode(';', trim(fgets($h)));
                 if (count($line) < 2) continue;
@@ -93,10 +95,10 @@ function signin()
 
         // 6. check if the file containing users exists
         // 7. check if the email is registered
-        if (!file_exists('users.csv')) die(message('error', 'The user is not registered. <a href="signup.php">click here<a/>'));
+        if (!file_exists($registered)) die(message('error', 'The user is not registered. <a href="signup.php">click here<a/>'));
 
         // check if the email has not been banned
-        $h = fopen('users.csv', 'r+');
+        $h = fopen($registered, 'r+');
         while (!feof($h)) {
             $line = explode(';', trim(fgets($h)));
             if (count($line) < 2) continue;

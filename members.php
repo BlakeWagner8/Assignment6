@@ -12,7 +12,7 @@ if(!is_logged()) header('location: index.php');
 
 <body>
     <h1>This page is for members only</h1>
-    <h2>Hello <?= $_SESSION['name'] ?></h2>
+    <h2>Hello</h2>
     <a href="signout.php"><button type="button">Sign Out</button></a>
 
 </body>
