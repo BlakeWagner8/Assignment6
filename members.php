@@ -12,7 +12,8 @@ if(!is_logged()) header('location: index.php');
 
 <body>
     <h1>This page is for members only</h1>
-    <h2>Hello</h2>
+    <h2>Hello <?php if(!isset($_POST['name'][0])) echo'Authorized Member';
+                    else echo $_POST['name'][0]?></h2>
     <a href="signout.php"><button type="button">Sign Out</button></a>
 
 </body>
